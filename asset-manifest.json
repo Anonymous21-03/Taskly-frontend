@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Taskly-frontend/static/css/main.3c67b55d.css",
-    "main.js": "/Taskly-frontend/static/js/main.6b60d81a.js",
+    "main.js": "/Taskly-frontend/static/js/main.f44de6d3.js",
     "index.html": "/Taskly-frontend/index.html",
     "main.3c67b55d.css.map": "/Taskly-frontend/static/css/main.3c67b55d.css.map",
-    "main.6b60d81a.js.map": "/Taskly-frontend/static/js/main.6b60d81a.js.map"
+    "main.f44de6d3.js.map": "/Taskly-frontend/static/js/main.f44de6d3.js.map"
   },
   "entrypoints": [
     "static/css/main.3c67b55d.css",
-    "static/js/main.6b60d81a.js"
+    "static/js/main.f44de6d3.js"
   ]
 }
