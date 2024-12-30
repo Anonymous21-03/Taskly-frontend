@@ -1,0 +1,123 @@
+.register-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 20px;
+  }
+  
+  .register-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .register-card h2 {
+    text-align: center;
+    color: #333;
+    margin: 0 0 30px 0;
+    font-size: 24px;
+  }
+  
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .form-group label {
+    color: #555;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .form-group input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  }
+  
+  .error {
+    background-color: #fff2f0;
+    border: 1px solid #ffccc7;
+    color: #ff4d4f;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  button {
+    background-color: #4a90e2;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #357abd;
+  }
+  
+  button:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+  }
+  
+  .login-redirect {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .login-link {
+    background: none;
+    border: none;
+    color: #4a90e2;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-left: 5px;
+  }
+  
+  .login-link:hover {
+    background: none;
+    text-decoration: underline;
+    color: #357abd;
+  }
+  
+  @media (max-width: 480px) {
+    .register-card {
+      padding: 20px;
+    }
+    
+    .register-form {
+      gap: 15px;
+    }
+    
+    .form-group input {
+      padding: 10px;
+    }
+  }
