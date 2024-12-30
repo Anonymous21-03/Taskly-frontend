@@ -10,6 +10,23 @@ function CreateTask({ onTaskCreated }) {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Convert local datetime string to ISO string
+  const toISOString = (dateTimeString) => {
+    if (!dateTimeString) return '';
+    const date = new Date(dateTimeString);
+    return date.toISOString();
+  };
+
+  // Convert ISO string to local datetime string
+  const toLocalDateTime = (isoString) => {
+    if (!isoString) return '';
+    const date = new Date(isoString);
+    // Format: YYYY-MM-DDThh:mm
+    return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, 16);
+  };
+
   const validateTimes = () => {
     const start = new Date(startTime);
     const end = new Date(endTime);
@@ -22,12 +39,12 @@ function CreateTask({ onTaskCreated }) {
     // Calculate duration in hours
     const duration = (end - start) / (1000 * 60 * 60);
     
-    if (duration < 0.5) { // Minimum 30 minutes
+    if (duration < 0.5) {
       setError('Task duration must be at least 30 minutes');
       return false;
     }
 
-    if (duration > 168) { // Maximum 1 week
+    if (duration > 168) {
       setError('Task duration cannot exceed 1 week');
       return false;
     }
@@ -46,10 +63,11 @@ function CreateTask({ onTaskCreated }) {
     setIsSubmitting(true);
 
     try {
+      // Convert local times to ISO strings before sending to API
       const response = await API.post('/tasks', {
         title,
-        startTime,
-        endTime,
+        startTime: toISOString(startTime),
+        endTime: toISOString(endTime),
         priority: Number(priority)
       });
 
@@ -101,7 +119,7 @@ function CreateTask({ onTaskCreated }) {
           <input
             type="datetime-local"
             value={endTime}
-            min={startTime} // Prevents selecting end time before start time
+            min={startTime}
             onChange={e => setEndTime(e.target.value)}
             required
           />
