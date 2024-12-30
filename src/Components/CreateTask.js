@@ -1,19 +1,49 @@
-import React, { useState } from 'react'
-import API from '../services/api'
-import './createTask.css'
+import React, { useState } from 'react';
+import API from '../services/api';
+import './createTask.css';
 
-function CreateTask ({ onTaskCreated }) {
-  const [title, setTitle] = useState('')
-  const [startTime, setStartTime] = useState('')
-  const [endTime, setEndTime] = useState('')
-  const [priority, setPriority] = useState(1)
-  const [error, setError] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
+function CreateTask({ onTaskCreated }) {
+  const [title, setTitle] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [priority, setPriority] = useState(1);
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async e => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setError('')
+  const validateTimes = () => {
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+    
+    if (end <= start) {
+      setError('End time must be after start time');
+      return false;
+    }
+
+    // Calculate duration in hours
+    const duration = (end - start) / (1000 * 60 * 60);
+    
+    if (duration < 0.5) { // Minimum 30 minutes
+      setError('Task duration must be at least 30 minutes');
+      return false;
+    }
+
+    if (duration > 168) { // Maximum 1 week
+      setError('Task duration cannot exceed 1 week');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (!validateTimes()) {
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
       const response = await API.post('/tasks', {
@@ -21,26 +51,26 @@ function CreateTask ({ onTaskCreated }) {
         startTime,
         endTime,
         priority: Number(priority)
-      })
+      });
 
-      setTitle('')
-      setStartTime('')
-      setEndTime('')
-      setPriority(1)
+      setTitle('');
+      setStartTime('');
+      setEndTime('');
+      setPriority(1);
 
-      if (onTaskCreated) onTaskCreated(response.data)
+      if (onTaskCreated) onTaskCreated(response.data);
     } catch (error) {
       setError(
         error.response?.data?.message ||
-          'Error creating task. Please try again.'
-      )
+        'Error creating task. Please try again.'
+      );
       if (error.response?.status === 401) {
-        localStorage.removeItem('token')
+        localStorage.removeItem('token');
       }
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="create-container">
@@ -71,6 +101,7 @@ function CreateTask ({ onTaskCreated }) {
           <input
             type="datetime-local"
             value={endTime}
+            min={startTime} // Prevents selecting end time before start time
             onChange={e => setEndTime(e.target.value)}
             required
           />
@@ -94,7 +125,7 @@ function CreateTask ({ onTaskCreated }) {
         </button>
       </form>
     </div>
-  )
+  );
 }
 
-export default CreateTask
+export default CreateTask;
