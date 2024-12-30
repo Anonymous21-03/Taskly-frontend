@@ -16,18 +16,27 @@ function Register() {
     setIsLoading(true)
     setError('')
     
+    const userData = { name, email, password };
+    console.log('Attempting registration with:', userData);
+    
     try {
-      const response = await API.post('/users/register', { name, email, password })
+      console.log('API URL:', process.env.REACT_APP_API_URL);
+      const response = await API.post('/users/register', userData);
+      console.log('Registration response:', response);
       
-      
-      alert("User Created")
+      alert("User Created Successfully!")
       navigate('/login')
     } catch (error) {
-      if (error.response && error.response.data) {
-        setError(error.response.data.message || 'An error occurred during registration')
-      } else {
-        setError('An unexpected error occurred')
-      }
+      console.error('Registration error details:', {
+        message: error.message,
+        response: error.response,
+        data: error.response?.data
+      });
+      setError(
+        error.response?.data?.message || 
+        error.message || 
+        'Registration failed. Please try again.'
+      )
     } finally {
       setIsLoading(false)
     }
